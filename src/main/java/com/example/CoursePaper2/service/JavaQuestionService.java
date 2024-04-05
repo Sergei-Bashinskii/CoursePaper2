@@ -1,5 +1,6 @@
 package com.example.CoursePaper2.service;
 
+import com.example.CoursePaper2.exception.IdenticalParametersException;
 import com.example.CoursePaper2.exception.NullParametersException;
 import com.example.CoursePaper2.helper.HelperNull;
 import com.example.CoursePaper2.model.Question;
@@ -16,6 +17,14 @@ public class JavaQuestionService implements QuestionService{
     public Question add(String question, String answer) {
         if (HelperNull.nullString(question) || HelperNull.nullString(answer)) {
             throw new NullParametersException();
+        }
+        if (question.equals(answer)) {
+            throw new IdenticalParametersException();
+        }
+        for (Question checkQuestion: questions) {
+            if (checkQuestion.getQuestion().equals(question) || checkQuestion.getAnswer().equals(answer)) {
+                throw new IdenticalParametersException();
+            }
         }
         Question newQuestion = new Question(question, answer);
         questions.add(newQuestion);

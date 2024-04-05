@@ -1,5 +1,6 @@
 package com.example.CoursePaper2.controller;
 
+import com.example.CoursePaper2.exception.IdenticalParametersException;
 import com.example.CoursePaper2.exception.NullParametersException;
 import com.example.CoursePaper2.model.Question;
 import com.example.CoursePaper2.service.QuestionService;
@@ -24,6 +25,10 @@ public class JavaQuestionController{
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Нет входных параметров.");
     }
 
+    @ExceptionHandler(IdenticalParametersException.class)
+    public ResponseEntity<String> messageNullParametersException() {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Идентичные параметры.");
+    }
 
     @GetMapping("/add")
     public Question addQuestion(@RequestParam("question") String question,
